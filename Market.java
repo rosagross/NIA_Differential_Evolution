@@ -1,21 +1,17 @@
 package differentialEvolution;
 
 public class Market {
-
 	
+	private double maxPrice;
 	
-	private double price;
-	
-	private double demand;
+	private double maxDemand;
 	
 	public Market(double price, double demand) {
-		this.price = price;
-		this.demand = demand;
+		this.maxPrice = price;
+		this.maxDemand = demand;
 	}
 	
-	
-	
-	private double demand(double price, double maxPrice, double maxDemand) {
+	private double demand(double price) {
 		
 		//if price is greater than max price, return 0
 		if (price > maxPrice) {
@@ -28,9 +24,18 @@ public class Market {
 		}
 		
 		//else determine demand based on price
-		demand = maxDemand - Math.pow(price, 2)*maxDemand/Math.pow(maxPrice, 2);
+		double demandNew = maxDemand - Math.pow(price, 2)*maxDemand/Math.pow(maxPrice, 2);
 		
-		return demand;
+		return demandNew;
 		
+		
+	}
+
+	/**
+	 * Getter method for the maxDemand of the market
+	 * @return maxDemand the maximum demand of a market
+	 */
+	public double getDemand() {
+		return this.maxDemand;
 	}
 }

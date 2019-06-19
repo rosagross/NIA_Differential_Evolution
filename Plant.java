@@ -17,7 +17,7 @@ public class Plant {
 		
 	}
 	
-	private double cost(int x, double kwHPerPlant, double costPerPlant, int maxPlants) {
+	private double cost(int x) {
 	
 		//if x is non-positive, return 0
 		if (x <= 0) {
@@ -34,7 +34,31 @@ public class Plant {
 		
 		
 		//cost is number of plants times cost per plant
-		return plantsNeeded * costPerPlant;
+		return plantsNeeded * kwHPerPlant;
 		
+	}
+	
+	/**
+	 * Getter for the kwh value of a plant
+	 * @return
+	 */
+	public double getKWH() {
+		return this.kwHPerPlant;
+	}
+	
+	/**
+	 * Getter for the cost value of a plant
+	 * @return
+	 */
+	public double getCost() {
+		return this.cost;
+	}
+	
+	/**
+	 * Getter for the maximum of plants value of a plant
+	 * @return
+	 */
+	public double getMaxPlants() {
+		return this.maxPlants;
 	}
 }
