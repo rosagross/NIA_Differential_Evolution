@@ -42,11 +42,10 @@ public class Initialization {
 		printArray2D(ranges);
 		
 		// fill in the arrays corresponding to the given ranges
-		population = new double[9][populationSize];
-		for (int i = 0; i < ranges.length; i++) {
-			// take the i-th place of each vector in the population
-			for (int j = 0; j < populationSize; j++) {
-				population[i][j] = ranges[i][0] + Math.random() * (ranges[i][1] - ranges[i][0]);
+		population = new double[populationSize][DIMENSIONS];
+		for (int i = 0; i < populationSize; i++) {
+			for (int j = 0; j < ranges.length; j++) {
+				population[i][j] = ranges[j][0] + Math.random() * (ranges[j][1] - ranges[j][0]);
 			}
 		}
 		

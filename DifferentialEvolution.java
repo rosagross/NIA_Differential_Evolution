@@ -31,12 +31,12 @@ public class DifferentialEvolution {
 	public double[][] differentialEvolution() {
 		
 		
-		Initialization init = new Initialization(popSize);
+		Initialization init = new Initialization(popSize, markets, plants);
 		population = init.initialize();
 		newPopulation = new double[popSize][DIMENSIONS];
 		DonorGeneration donorGen = new DonorGeneration(scaleFactor);
 		TrialGeneration trialGen = new TrialGeneration(crossoverRate);
-		Selection select = new Selection();
+		Selection select = new Selection(markets, plants);
 
 		
 		for (int i = 0; i < popSize; i++) {
@@ -45,6 +45,7 @@ public class DifferentialEvolution {
 			newPopulation[i] = select.select(trial, population[i]);
 		}
 		
+		return newPopulation;
 
 	}
 	

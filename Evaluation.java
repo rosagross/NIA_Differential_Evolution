@@ -43,15 +43,15 @@ public class Evaluation {
 		DifferentialEvolution diffEvol = new DifferentialEvolution(plants, markets, popSize, scaleFactor, crossoverRate);
 	
 		solution = diffEvol.differentialEvolution();
-		bestValue = Selection.profit(solution[1]);
-		for (int i = 0; i < solution.length; i++) {
+		bestValue = Selection.profit(solution[0]);
+		for (int i = 1; i < solution.length; i++) {
 			if (Selection.profit(solution[i]) > bestValue) {
 				bestValue = Selection.profit(solution[i]);
 			}
 		}
 		
 		System.out.println(bestValue);
-		
+		Initialization.printArray2D(solution);
 	}
 	
 
