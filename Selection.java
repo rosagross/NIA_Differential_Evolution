@@ -9,8 +9,8 @@ public class Selection {
 	 * @author Tula
 	 */
 	
-	private Market[] markets;
-	private Plant[] plants;
+	private static Market[] markets;
+	private static Plant[] plants;
 	
 	public Selection(Market[] markets, Plant[] plants) {
 		this.markets = markets;
@@ -36,7 +36,7 @@ public class Selection {
 	 * @param vector
 	 * @returns profit of vector
 	 */
-	public double profit(double[] vector) {
+	public static double profit(double[] vector) {
 		return revenue(vector) - cost(vector);
 	}
 	
@@ -46,7 +46,7 @@ public class Selection {
 	 * @param vector, point in data space
 	 * @returns purchasing cost for this point
 	 */
-	public double purchasing_cost(double[] vector) {
+	public static double purchasing_cost(double[] vector) {
 		
 		double purchasing = 0;
 		double produced = 0;
@@ -71,7 +71,7 @@ public class Selection {
 	 * @param vector, point in data space of which first three entries indicating energies are relevant
 	 * @returns production_cost
 	 */
-	public double production_cost(double[] vector) {
+	public static double production_cost(double[] vector) {
 		double cost = 0;
 		for (int i = 0; i < 4; i++) {
 			cost += plants[i].cost(vector[i]);
@@ -85,7 +85,7 @@ public class Selection {
 	 * @param vector, point in data space to evaluate with respect to cost
 	 * @returns cost of this suggestion of values
 	 */
-	public double cost(double[] vector) {
+	public static double cost(double[] vector) {
 		return purchasing_cost(vector) + production_cost(vector);
 	}
 	
@@ -95,7 +95,7 @@ public class Selection {
 	 * @param a vector to evaluate with respect to revenue
 	 * @returns revenue of this suggestion of values
 	 */
-	public double revenue(double[] vector) {
+	public static double revenue(double[] vector) {
 		
 		double revenue = 0;
 		
