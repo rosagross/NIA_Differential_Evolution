@@ -1,68 +1,58 @@
 package differentialEvolution;
 
-public class DifferentialEvolution {
+/**
+ * In this class we execute the Differential Evolution with all our Modules.
+ * We initialize all the Markets and Plants at the beginning and uncomment them if we
+ * don't use them in the evaluation.
+ * CSV files are also created here.
+ * @author Rosa
+ *
+ */
+public class Evaluation {
 
-	private Market[] markets;
-	private Plant[] plants;
-	
-	private int popSize;
-	private double scaleFactor;
-	private double crossoverRate;
-	
-	private double[][] population;
-	private double[][] newPopulation;
-	
-	private double[] donor;
-	private double[] trial;
+	public static void main(String[] args) {
+		
+		final int DIMENSIONS = 9;
+		
+		// *** INITIALIZE PROBLEM ***
+		
+		// Plants
+		Plant plantA = new Plant(50000, 10000, 100);
+		Plant plantB = new Plant(600000, 80000, 50);
+		Plant plantC = new Plant(4000000, 400000, 3);
+		
+		Plant[] plants = new Plant[]{plantA, plantB, plantC};
+		
+		// Markets
+		Market market1 = new Market(0.45, 2000000);
+		Market market2 = new Market(0.25, 30000000);
+		Market market3 = new Market(0.2, 20000000);
 
 	
-	final public int DIMENSIONS = 9;
-	
-	public DifferentialEvolution(Plant[] plants, Market[] markets, int popSize, double scaleFactor, double crossoverRate) {
-		
-		this.plants = plants;
-		this.markets = markets;
-		this.popSize = popSize;
-		this.scaleFactor = scaleFactor;
-		this.crossoverRate = crossoverRate;
-	}
-	
-	
-	public double[][] differentialEvolution() {
-		
-		
-		Initialization init = new Initialization(popSize, markets, plants);		
-		DonorGeneration donorGen = new DonorGeneration(scaleFactor);
-		TrialGeneration trialGen = new TrialGeneration(crossoverRate);
-		Selection select = new Selection(markets, plants);
-		int counter = 0;
+		Market[] markets = new Market[]{market1, market2, market3};
 
-		population = init.initialize();
-
-		do {
-			
+	
+		//parameters
+		int popSize = 10;
+		double scaleFactor = 0.5;
+		double crossoverRate = 0.5;
 		
-			newPopulation = new double[popSize][DIMENSIONS];
-			
-			
-			for (int i = 0; i < popSize; i++) {
-				donor = donorGen.generateDonor(population);
-				trial = trialGen.generateTrial(donor, population[i]);
-				newPopulation[i] = select.select(trial, population[i]);
+		double[][] solution = new double[popSize][DIMENSIONS];
+		double bestValue;
+		
+		DifferentialEvolution diffEvol = new DifferentialEvolution(plants, markets, popSize, scaleFactor, crossoverRate);
+	
+		solution = diffEvol.differentialEvolution();
+		bestValue = Selection.profit(solution[1]);
+		for (int i = 0; i < solution.length; i++) {
+			if (Selection.profit(solution[i]) > bestValue) {
+				bestValue = Selection.profit(solution[i]);
 			}
-			
-			population = newPopulation;
-			counter ++;
-		} while (counter < 100);
+		}
 		
-		return population;
-	}
-	
-
-	
-}
-
+		System.out.println(bestValue);
 		
 	}
+	
 
 }
