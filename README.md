@@ -76,4 +76,4 @@ Tunable parameters
 
 - base vector scheme: Random/Best/Target-to-Best; default is Random
 - number of shifting directions: default is 1
-- crossover scheme: Binary/Exponentiyl; default is Binary
+- crossover scheme: Binary/Exponential; default is Binary
