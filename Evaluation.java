@@ -31,8 +31,8 @@ public class Evaluation {
 
 	
 		//parameters
-		int pop_size = 10;
-		double scale_factor = 0.5;
+		int popSize = 10;
+		double scaleFactor = 0.5;
 		
 	}
 
