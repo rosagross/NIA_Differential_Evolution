@@ -17,7 +17,7 @@ public class Plant {
 		
 	}
 	
-	private double cost(double x) {
+	public double cost(double x) {
 	
 		//if x is non-positive, return 0
 		if (x <= 0) {
