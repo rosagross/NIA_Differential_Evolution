@@ -1,38 +1,67 @@
 package differentialEvolution;
 
-/**
- * In this class we execute the Differential Evolution with all our Modules.
- * We initialize all the Markets and Plants at the beginning and uncomment them if we
- * don't use them in the evaluation.
- * CSV files are also created here.
- * @author Rosa
- *
- */
-public class Evaluation {
+public class DifferentialEvolution {
 
-	public static void main(String[] args) {
-		
-		// *** INITIALIZE PROBLEM ***
-		
-		// Plants
-		Plant plantA = new Plant(50000, 10000, 100);
-		Plant plantB = new Plant(600000, 80000, 50);
-		Plant plantC = new Plant(4000000, 400000, 3);
-		
-		Plant[] plants = new Plant[]{plantA, plantB, plantC};
-		
-		// Markets
-		Market market1 = new Market(0.45, 2000000);
-		Market market2 = new Market(0.25, 30000000);
-		Market market3 = new Market(0.2, 20000000);
+	private Market[] markets;
+	private Plant[] plants;
+	
+	private int popSize;
+	private double scaleFactor;
+	private double crossoverRate;
+	
+	private double[][] population;
+	private double[][] newPopulation;
+	
+	private double[] donor;
+	private double[] trial;
 
 	
-		Market[] markets = new Market[]{market1, market2, market3};
+	final public int DIMENSIONS = 9;
+	
+	public DifferentialEvolution(Plant[] plants, Market[] markets, int popSize, double scaleFactor, double crossoverRate) {
+		
+		this.plants = plants;
+		this.markets = markets;
+		this.popSize = popSize;
+		this.scaleFactor = scaleFactor;
+		this.crossoverRate = crossoverRate;
+	}
+	
+	
+	public double[][] differentialEvolution() {
+		
+		
+		Initialization init = new Initialization(popSize, markets, plants);		
+		DonorGeneration donorGen = new DonorGeneration(scaleFactor);
+		TrialGeneration trialGen = new TrialGeneration(crossoverRate);
+		Selection select = new Selection(markets, plants);
+		int counter = 0;
+
+		population = init.initialize();
+
+		do {
+			
+		
+			newPopulation = new double[popSize][DIMENSIONS];
+			
+			
+			for (int i = 0; i < popSize; i++) {
+				donor = donorGen.generateDonor(population);
+				trial = trialGen.generateTrial(donor, population[i]);
+				newPopulation[i] = select.select(trial, population[i]);
+			}
+			
+			population = newPopulation;
+			counter ++;
+		} while (counter < 100);
+		
+		return population;
+	}
+	
 
 	
-		//parameters
-		int popSize = 10;
-		double scaleFactor = 0.5;
+}
+
 		
 	}
 
