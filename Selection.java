@@ -5,7 +5,8 @@ public class Selection {
 	/*
 	 * This class selects either the original vector or the mutated vector (using the donor) 
 	 * The most simple method is implemented: We use the better one of both.
-	 * !!! The 0.6 in purchasing cost might be tunable, the assignment however says it should be 0.6 !!!
+	 * !!! The 0.6 in purchasing cost might be tunable !!!
+	 * @author Tula
 	 */
 	
 	private Market[] markets;
