@@ -52,7 +52,7 @@ public class Selection {
 		double produced = 0;
 		double sold = 0;
 		
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			produced += vector[i];
 			sold += vector[i + 3];
 		}
@@ -73,7 +73,7 @@ public class Selection {
 	 */
 	public static double production_cost(double[] vector) {
 		double cost = 0;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			cost += plants[i].cost(vector[i]);
 		}
 		return cost;
@@ -99,7 +99,7 @@ public class Selection {
 		
 		double revenue = 0;
 		
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			double here = markets[i].demand(vector[i + 6]);
 			if (here > vector[i + 3]) {
 				here = vector[i + 3];
