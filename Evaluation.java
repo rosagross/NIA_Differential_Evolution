@@ -1,27 +1,17 @@
 package differentialEvolution;
 
-/**
- * In this class we execute the Differential Evolution with all our Modules.
- * We initialize all the Markets and Plants at the beginning and uncomment them if we
- * don't use them in the evaluation.
- * CSV files are also created here.
- * @author Rosa
- *
- */
-public class Evaluation {
+public class DiffenrentialEvolution {
 
-	public static void main(String[] args) {
+	private int pop_size;
+	double[][] population;
+	
+	public DiffenrentialEvolution(int pop_size) {
 		
-		// *** INITIALIZE PROBLEM ***
-		
-		// Plants
-		
-		
-		// Markets
-		
-	 
-		
-		
+		this.pop_size = pop_size;
 	}
+	
+	Initialization init = new Initialization(pop_size);
+	population = init.initialize();
 
+	
 }
