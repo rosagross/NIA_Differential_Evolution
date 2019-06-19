@@ -11,7 +11,7 @@ public class Market {
 		this.maxDemand = demand;
 	}
 	
-	private double demand(double price) {
+	public double demand(double price) {
 		
 		//if price is greater than max price, return 0
 		if (price > maxPrice) {
