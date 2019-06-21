@@ -14,6 +14,7 @@ public class DifferentialEvolution {
 	
 	private double[] donor;
 	private double[] trial;
+	private double[][] ranges;
 
 	
 	final public int DIMENSIONS = 9;
@@ -33,12 +34,14 @@ public class DifferentialEvolution {
 		// initialize variable for counting the iterations 
 		int count = 0;
 		
+		// set ranges of variables
+		setRanges();
 		// initialize population
-		Initialization init = new Initialization(popSize, markets, plants);
+		Initialization init = new Initialization(popSize, markets, plants, ranges);
 		population = init.initialize();
 		
 		// initialize our instances for of the modules
-		DonorGeneration donorGen = new DonorGeneration(scaleFactor);
+		DonorGeneration donorGen = new DonorGeneration(scaleFactor, ranges);
 		TrialGeneration trialGen = new TrialGeneration(crossoverRate);
 		Selection select = new Selection(markets, plants);
 		
@@ -66,6 +69,27 @@ public class DifferentialEvolution {
 
 		return newPopulation;
 
+	}
+
+
+	private void setRanges() {
+		// we got 9 ranges, each with 2 numbers inside (start and end)
+		this.ranges = new double[DIMENSIONS][2];
+		for (int i = 0; i < this.ranges.length; i++) {
+			
+			if (i < 3) { // take the range for energy produced with plants of type i
+				this.ranges[i][0] = 0;
+				this.ranges[i][1] = plants[i].getKWH() * plants[i].getMaxPlants();
+			}if (i < 6 && i >= 3) { // take the planned amount of energy sold to market of type i
+				this.ranges[i][0] = 0;
+				this.ranges[i][1] = markets[i%3].getDemand();
+			}else if(i >= 6){
+				this.ranges[i][0] = 0;
+				this.ranges[i][1] = markets[i%3].getMaxPrice();
+			}
+		}
+//		System.out.println("The ranges: " + (double)(plants[1].getKWH() * plants[1].getMaxPlants()));
+//		Initialization.printArray2D(this.ranges);
 	}
 	
 

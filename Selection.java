@@ -38,10 +38,9 @@ public class Selection {
 	public static double profit(double[] vector) {
 		double cost = cost(vector);
 		double revenue = revenue(vector);
-		//System.out.println("cost " + (int)cost);
-		//System.out.println("revenue final " + (int)revenue);
+//		System.out.println("cost " + cost);
+//		System.out.println("revenue final " + revenue);
 		return revenue - cost;
-		// 2147483647
 	}
 	
 	

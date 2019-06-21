@@ -30,7 +30,6 @@ public class Evaluation {
 
 	
 		Market[] markets = new Market[]{market1, market2, market3};
-
 	
 		//parameters
 		int popSize = 50;
@@ -43,18 +42,18 @@ public class Evaluation {
 		DifferentialEvolution diffEvol = new DifferentialEvolution(plants, markets, popSize, scaleFactor, crossoverRate);
 	
 		// do DE Algorithm for 10 iterations
-		solution = diffEvol.differentialEvolution(10);
+		solution = diffEvol.differentialEvolution(20);
 		// select the best value out of the new population
 		bestValue = Selection.profit(solution[0]);
 		for (int i = 1; i < solution.length; i++) {
-			System.out.println("profit " + i + ": " + (int)Selection.profit(solution[i]));
+			//System.out.println("profit " + i + ": " + (long)Selection.profit(solution[i]));
 			if (Selection.profit(solution[i]) > bestValue) {
 				bestValue = Selection.profit(solution[i]);
 			}
 		}
 		
-		System.out.println("best Value: " + (int)bestValue);
-		Initialization.printArray2D(solution);
+		System.out.println("best Value: " + bestValue);
+//		Initialization.printArray2D(solution);
 	}
 	
 
