@@ -28,23 +28,42 @@ public class DifferentialEvolution {
 	}
 	
 	
-	public double[][] differentialEvolution() {
+	public double[][] differentialEvolution(int iterations) {
 		
+		// initialize variable for counting the iterations 
+		int count = 0;
 		
+		// initialize population
 		Initialization init = new Initialization(popSize, markets, plants);
 		population = init.initialize();
-		newPopulation = new double[popSize][DIMENSIONS];
+		
+		// initialize our instances for of the modules
 		DonorGeneration donorGen = new DonorGeneration(scaleFactor);
 		TrialGeneration trialGen = new TrialGeneration(crossoverRate);
 		Selection select = new Selection(markets, plants);
+		
+		do {
+			// clear the new population
+			newPopulation = new double[popSize][DIMENSIONS];
 
-		
-		for (int i = 0; i < popSize; i++) {
-			donor = donorGen.generateDonor(population);
-			trial = trialGen.generateTrial(donor, population[i]);
-			newPopulation[i] = select.select(trial, population[i]);
-		}
-		
+			for (int i = 0; i < popSize; i++) {
+				// generate the donor (Mutation)
+				donor = donorGen.generateDonor(population);
+				// generate the trial (Crossover)
+				trial = trialGen.generateTrial(donor, population[i]);
+				// add the selected trial to new population
+				newPopulation[i] = select.select(trial, population[i]);
+			}
+			
+			// copy the array such that population = newPopulation
+			for (int i = 0; i < population.length; i++) {
+		         population[i] = newPopulation[i];
+		    }
+			
+			
+			count++;
+		} while (count < iterations);
+
 		return newPopulation;
 
 	}

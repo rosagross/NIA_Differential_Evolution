@@ -13,8 +13,6 @@ public class Plant {
 		this.kwHPerPlant = kwHPerPlant;
 		this.cost = cost;
 		this.maxPlants = maxPlants;
-		
-		
 	}
 	
 	public double cost(double x) {
@@ -31,11 +29,11 @@ public class Plant {
 		
 		//otherwise determine number of plants needed to generate x
 		double plantsNeeded = Math.ceil(x / kwHPerPlant);
+		//System.out.println("plants needed: " + plantsNeeded);
+		//System.out.println("kwh per plant: " + kwHPerPlant);
 		
-		
-		//cost is number of plants times cost per plant
-		return plantsNeeded * kwHPerPlant;
-		
+		//cost is number of plants needed times cost per plant
+		return plantsNeeded * cost;
 	}
 	
 	/**

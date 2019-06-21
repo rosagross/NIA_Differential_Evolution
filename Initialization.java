@@ -58,10 +58,15 @@ public class Initialization {
 	 * Print array for test
 	 */
 	public static void printArray2D(double[][] array) {
-		for (int i = 0; i < array[0].length; i++) {
+		for (int i = 0; i < array.length; i++) {
 			System.out.println("\n");
-			for (int j = 0; j < array.length; j++) {
-				System.out.println(array[j][i]);
+			for (int j = 0; j < array[0].length; j++) {
+				if (j < 6) {
+					System.out.println((int)array[i][j]);
+
+				}else {
+					System.out.println(array[i][j]);
+				}
 			}
 		}
 		System.out.println("\n");
@@ -73,7 +78,7 @@ public class Initialization {
 	 */
 	public static void printArray(double[] array) {
 		for (int i = 0; i < array.length; i++) {
-			System.out.println(array[i]);
+			System.out.println((int)array[i]);
 		}
 		System.out.println("\n");
 	}

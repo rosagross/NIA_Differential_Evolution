@@ -33,7 +33,7 @@ public class Evaluation {
 
 	
 		//parameters
-		int popSize = 10;
+		int popSize = 50;
 		double scaleFactor = 0.5;
 		double crossoverRate = 0.5;
 		
@@ -42,15 +42,18 @@ public class Evaluation {
 		
 		DifferentialEvolution diffEvol = new DifferentialEvolution(plants, markets, popSize, scaleFactor, crossoverRate);
 	
-		solution = diffEvol.differentialEvolution();
+		// do DE Algorithm for 10 iterations
+		solution = diffEvol.differentialEvolution(10);
+		// select the best value out of the new population
 		bestValue = Selection.profit(solution[0]);
 		for (int i = 1; i < solution.length; i++) {
+			System.out.println("profit " + i + ": " + (int)Selection.profit(solution[i]));
 			if (Selection.profit(solution[i]) > bestValue) {
 				bestValue = Selection.profit(solution[i]);
 			}
 		}
 		
-		System.out.println(bestValue);
+		System.out.println("best Value: " + (int)bestValue);
 		Initialization.printArray2D(solution);
 	}
 	

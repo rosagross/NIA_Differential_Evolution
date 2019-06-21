@@ -30,14 +30,18 @@ public class Selection {
 		}
 	}
 	
-	
 	/*
 	 * finds out the profit for one vector, needed to decide if we want mutated or original in new generation
 	 * @param vector
 	 * @returns profit of vector
 	 */
 	public static double profit(double[] vector) {
-		return revenue(vector) - cost(vector);
+		double cost = cost(vector);
+		double revenue = revenue(vector);
+		//System.out.println("cost " + (int)cost);
+		//System.out.println("revenue final " + (int)revenue);
+		return revenue - cost;
+		// 2147483647
 	}
 	
 	
@@ -62,6 +66,7 @@ public class Selection {
 		if (0 > purchasing) {
 			purchasing = 0;
 		}
+		//System.out.println("purchasing: " + (int)purchasing);
 		return purchasing*0.6;
 	}
 	
@@ -72,11 +77,11 @@ public class Selection {
 	 * @returns production_cost
 	 */
 	public static double production_cost(double[] vector) {
-		double cost = 0;
+		double productioncost = 0;
 		for (int i = 0; i < 3; i++) {
-			cost += plants[i].cost(vector[i]);
+			productioncost += plants[i].cost(vector[i]);
 		}
-		return cost;
+		return productioncost;
 	}
 	
 	
@@ -86,7 +91,9 @@ public class Selection {
 	 * @returns cost of this suggestion of values
 	 */
 	public static double cost(double[] vector) {
-		return purchasing_cost(vector) + production_cost(vector);
+		double prodCost = production_cost(vector);
+		//System.out.println("Production cost: " + prodCost);
+		return purchasing_cost(vector) + prodCost;
 	}
 	
 	
@@ -98,7 +105,6 @@ public class Selection {
 	public static double revenue(double[] vector) {
 		
 		double revenue = 0;
-		
 		for (int i = 0; i < 3; i++) {
 			double here = markets[i].demand(vector[i + 6]);
 			if (here > vector[i + 3]) {
