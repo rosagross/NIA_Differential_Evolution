@@ -1,20 +1,34 @@
 package differentialEvolution;
 
+/**
+ * construct plants
+ * @author Emilia, Rosa, Tula
+ *
+ */
 public class Plant {
 
-	
 	private double kwHPerPlant;
 	private double cost;
 	private int maxPlants;
 	
 	
-	
+	/**
+	 * set parameters for plants
+	 * @param kwHPerPlant
+	 * @param cost
+	 * @param maxPlants
+	 */
 	public Plant(double kwHPerPlant, double cost, int maxPlants) {
 		this.kwHPerPlant = kwHPerPlant;
 		this.cost = cost;
 		this.maxPlants = maxPlants;
 	}
 	
+	/**
+	 * calculate cost
+	 * @param x
+	 * @return cost
+	 */
 	public double cost(double x) {
 	
 		//if x is non-positive, return 0

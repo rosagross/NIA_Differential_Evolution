@@ -1,5 +1,10 @@
 package differentialEvolution;
 
+/**
+ * Initialize vectors
+ * @author Rosa
+ *
+ */
 public class Initialization {
 
 	final int DIMENSIONS = 9;
@@ -9,6 +14,13 @@ public class Initialization {
 	private Plant[] plants;
 	private double[][] ranges;
 	
+	/**
+	 * constructor for initialization, set parameters
+	 * @param populationSize
+	 * @param markets
+	 * @param plants
+	 * @param ranges
+	 */
 	public Initialization(int populationSize, Market[] markets, Plant[] plants, double[][] ranges) {
 		this.markets = markets;
 		this.plants = plants;
@@ -32,9 +44,6 @@ public class Initialization {
 				population[i][j] = this.ranges[j][0] + Math.random() * (this.ranges[j][1] - this.ranges[j][0]);
 			}
 		}
-		
-//		System.out.println("The population: ");
-//		printArray2D(population);
 		return population;
 	}
 	

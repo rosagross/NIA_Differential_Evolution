@@ -2,6 +2,11 @@ package differentialEvolution;
 
 import java.util.Random;
 
+/**
+ * generate trial from donor and current population with exponential crossover
+ * @author Emilia
+ *
+ */
 public class TrialGenerationExp implements TrialGeneration{
 
 	
@@ -42,18 +47,18 @@ final int DIMENSIONS = 9;
 		
 		int counter = 1;
 		
+		//choose donor with probability crossoverRate
 		while (c[counter] < crossoverRate && counter < 8) {
 			trial[(r + counter)%DIMENSIONS] = donor[(r + counter)%DIMENSIONS];
 			counter++;
 		}
 		
+		//once the populationvector is chosen we stay with it
 		if (counter < 8) {
 			for (int i = counter; i < c.length; i++) {
 				trial[(r + i)%DIMENSIONS] = populationX[(r + i)%DIMENSIONS];
 			}
 		}
-	
-	
 		return trial;
 	}
 }

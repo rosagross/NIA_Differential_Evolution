@@ -4,6 +4,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * all classes are combined for the general algorithm
+ * @author Emilia, Rosa, Tula
+ *
+ */
 public class DifferentialEvolution {
 
 	private Market[] markets;
@@ -27,6 +32,17 @@ public class DifferentialEvolution {
 	
 	final public int DIMENSIONS = 9;
 	
+	/**
+	 * constructor for DifferentialEvolution
+	 * @param donorGeneration
+	 * @param trialGeneration
+	 * @param plants
+	 * @param markets
+	 * @param popSize
+	 * @param scaleFactor
+	 * @param crossoverRate
+	 * @param costprice
+	 */
 	public DifferentialEvolution(DonorGeneration donorGeneration, TrialGeneration trialGeneration, Plant[] plants, Market[] markets, int popSize, double scaleFactor, double crossoverRate, double costprice) {
 		
 		this.plants = plants;
@@ -39,12 +55,18 @@ public class DifferentialEvolution {
 		this.trialGeneration = trialGeneration;
 	}
 	
-	
+	/**
+	 * combine all modules for the algorithm
+	 * @param iterations
+	 * @return
+	 */
 	public double[][] differentialEvolution(int iterations) {
 		
 		// initialize variable for counting the iterations and saving best profit for documentation
 		int count = 0;
 		double currentProfit = 0;
+		double resultValue = Integer.MIN_VALUE;
+		int endcounter = 0;
 		
 		
 		// set ranges of variables
@@ -86,14 +108,24 @@ public class DifferentialEvolution {
 						currentProfit = Selection.profit(population[i], costprice);
 					}
 				}
-				System.out.println("curr profit " + String.valueOf(currentProfit));
 				
 				writer.write(String.valueOf((int)currentProfit) + "," + String.valueOf(count+1));
 				writer.append("\n");
 				
 				
 				count++;
-			} while (count < iterations);
+				//compare the reulting Value to the current best value
+				if (currentProfit > resultValue) {
+
+					resultValue = currentProfit;
+					endcounter = 0;
+				} else {
+					endcounter++;
+				}
+				
+			// end if there is no improvement in 100 iterations or if 1000 iterations are reached
+			} while (endcounter < 100 && count < iterations);
+			
 			
 			writer.flush();
 		} catch (IOException e) {
