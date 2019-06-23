@@ -11,10 +11,12 @@ public class Selection {
 	
 	private static Market[] markets;
 	private static Plant[] plants;
+	private double costprice;
 	
-	public Selection(Market[] markets, Plant[] plants) {
+	public Selection(Market[] markets, Plant[] plants, double costprice) {
 		this.markets = markets;
 		this.plants = plants;
+		this.costprice = costprice;
 	}
 	
 	/*
@@ -23,7 +25,7 @@ public class Selection {
 	 * @returns better vector
 	 */
 	public double[] select(double[] mutated, double[] original) {
-		if (profit(mutated) > profit(original)) {
+		if (profit(mutated, this.costprice) > profit(original, this.costprice)) {
 			return mutated;
 		} else {
 			return original;
@@ -35,8 +37,8 @@ public class Selection {
 	 * @param vector
 	 * @returns profit of vector
 	 */
-	public static double profit(double[] vector) {
-		double cost = cost(vector);
+	public static double profit(double[] vector, double costprice) {
+		double cost = cost(vector, costprice);
 		double revenue = revenue(vector);
 //		System.out.println("cost " + cost);
 //		System.out.println("revenue final " + revenue);
@@ -49,7 +51,7 @@ public class Selection {
 	 * @param vector, point in data space
 	 * @returns purchasing cost for this point
 	 */
-	public static double purchasing_cost(double[] vector) {
+	public static double purchasing_cost(double[] vector, double costprice) {
 		
 		double purchasing = 0;
 		double produced = 0;
@@ -66,7 +68,7 @@ public class Selection {
 			purchasing = 0;
 		}
 		//System.out.println("purchasing: " + (int)purchasing);
-		return purchasing*0.6;
+		return purchasing*costprice;
 	}
 	
 	
@@ -89,10 +91,10 @@ public class Selection {
 	 * @param vector, point in data space to evaluate with respect to cost
 	 * @returns cost of this suggestion of values
 	 */
-	public static double cost(double[] vector) {
+	public static double cost(double[] vector, double costprice) {
 		double prodCost = production_cost(vector);
 		//System.out.println("Production cost: " + prodCost);
-		return purchasing_cost(vector) + prodCost;
+		return purchasing_cost(vector, costprice) + prodCost;
 	}
 	
 	

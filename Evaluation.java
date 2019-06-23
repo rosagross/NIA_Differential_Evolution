@@ -1,5 +1,7 @@
 package differentialEvolution;
 
+import java.io.FileWriter;
+
 /**
  * In this class we execute the Differential Evolution with all our Modules.
  * We initialize all the Markets and Plants at the beginning and uncomment them if we
@@ -32,23 +34,24 @@ public class Evaluation {
 		Market[] markets = new Market[]{market1, market2, market3};
 	
 		//parameters
-		int popSize = 50;
+		int popSize = 100;
 		double scaleFactor = 0.5;
 		double crossoverRate = 0.5;
+		double costprice = 0.6;
 		
 		double[][] solution = new double[popSize][DIMENSIONS];
 		double bestValue;
 		
-		DifferentialEvolution diffEvol = new DifferentialEvolution(plants, markets, popSize, scaleFactor, crossoverRate);
+		DifferentialEvolution diffEvol = new DifferentialEvolution(plants, markets, popSize, scaleFactor, crossoverRate, costprice);
 	
-		// do DE Algorithm for 10 iterations
-		solution = diffEvol.differentialEvolution(20);
+		// do DE Algorithm for n iterations
+		solution = diffEvol.differentialEvolution(30);
 		// select the best value out of the new population
-		bestValue = Selection.profit(solution[0]);
+		bestValue = Selection.profit(solution[0], costprice);
 		for (int i = 1; i < solution.length; i++) {
 			//System.out.println("profit " + i + ": " + (long)Selection.profit(solution[i]));
-			if (Selection.profit(solution[i]) > bestValue) {
-				bestValue = Selection.profit(solution[i]);
+			if (Selection.profit(solution[i], costprice) > bestValue) {
+				bestValue = Selection.profit(solution[i], costprice);
 			}
 		}
 		

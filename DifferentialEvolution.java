@@ -1,5 +1,9 @@
 package differentialEvolution;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class DifferentialEvolution {
 
 	private Market[] markets;
@@ -8,6 +12,7 @@ public class DifferentialEvolution {
 	private int popSize;
 	private double scaleFactor;
 	private double crossoverRate;
+	private double costprice;
 	
 	private double[][] population;
 	private double[][] newPopulation;
@@ -19,20 +24,23 @@ public class DifferentialEvolution {
 	
 	final public int DIMENSIONS = 9;
 	
-	public DifferentialEvolution(Plant[] plants, Market[] markets, int popSize, double scaleFactor, double crossoverRate) {
+	public DifferentialEvolution(Plant[] plants, Market[] markets, int popSize, double scaleFactor, double crossoverRate, double costprice) {
 		
 		this.plants = plants;
 		this.markets = markets;
 		this.popSize = popSize;
 		this.scaleFactor = scaleFactor;
 		this.crossoverRate = crossoverRate;
+		this.costprice = costprice;
 	}
 	
 	
 	public double[][] differentialEvolution(int iterations) {
 		
-		// initialize variable for counting the iterations 
+		// initialize variable for counting the iterations and saving best profit for documentation
 		int count = 0;
+		double currentProfit = 0;
+		
 		
 		// set ranges of variables
 		setRanges();
@@ -43,31 +51,53 @@ public class DifferentialEvolution {
 		// initialize our instances for of the modules
 		DonorGeneration donorGen = new DonorGeneration(scaleFactor, ranges);
 		TrialGeneration trialGen = new TrialGeneration(crossoverRate);
-		Selection select = new Selection(markets, plants);
+		Selection select = new Selection(markets, plants, costprice);
 		
-		do {
-			// clear the new population
-			newPopulation = new double[popSize][DIMENSIONS];
+		try (BufferedWriter writer =
+				new BufferedWriter(new FileWriter("data.csv"))){
+			
+			writer.append("Filename, Iterations, Ants, BestValue, durationTotal, durationIteration");
+			writer.append("\n");
+		
+			do {
+				// clear the new population
+				newPopulation = new double[popSize][DIMENSIONS];
+		
+				for (int i = 0; i < popSize; i++) {
+					// generate the donor (Mutation)
+					donor = donorGen.generateDonor(population);
+					// generate the trial (Crossover)
+					trial = trialGen.generateTrial(donor, population[i], ranges);
+					// add the selected trial to new population
+					newPopulation[i] = select.select(trial, population[i]);
+					// copy the array such that population = newPopulation
+					population[i] = newPopulation[i];
+				}
+				
+				
+				// for the evaluation we need to calculate the best profit for each iteration
+				currentProfit = Selection.profit(population[0], costprice);
+				for (int i = 1; i < population.length; i++) {
+					//System.out.println("profit " + i + ": " + (long)Selection.profit(solution[i]));
+					if (Selection.profit(population[i], costprice) > currentProfit) {
+						currentProfit = Selection.profit(population[i], costprice);
+					}
+				}
+				//System.out.print("curr profit " + String.valueOf(currentProfit));
+				writer.append(String.valueOf(currentProfit));	
+				writer.append(",");
+				writer.append(String.valueOf(count));
+				
+				
+				count++;
+			} while (count < iterations);
+			
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-			for (int i = 0; i < popSize; i++) {
-				// generate the donor (Mutation)
-				donor = donorGen.generateDonor(population);
-				// generate the trial (Crossover)
-				trial = trialGen.generateTrial(donor, population[i]);
-				// add the selected trial to new population
-				newPopulation[i] = select.select(trial, population[i]);
-			}
-			
-			// copy the array such that population = newPopulation
-			for (int i = 0; i < population.length; i++) {
-		         population[i] = newPopulation[i];
-		    }
-			
-			
-			count++;
-		} while (count < iterations);
-
-		return newPopulation;
+		return population;
 
 	}
 

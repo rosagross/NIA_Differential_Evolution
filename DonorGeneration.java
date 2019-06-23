@@ -35,12 +35,10 @@ public class DonorGeneration {
 				donor[i] = donorX;
 			}
 		}
-		// 3142852 - 3689399
 //		System.out.println("donor");
 //		Initialization.printArray(donor);
 		
 		return donor;
 		
 	}
-
 }

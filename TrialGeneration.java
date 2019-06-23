@@ -33,7 +33,7 @@ public class TrialGeneration {
 	 * @param populationX from whole population
 	 * @return trial
 	 */
-	public double[] generateTrial(double[] donor, double[]populationX) {
+	public double[] generateTrial(double[] donor, double[]populationX, double[][] ranges) {
 		
 		Random random = new Random();
 		//trial
@@ -55,6 +55,7 @@ public class TrialGeneration {
 		for (int i = 1; i < trial.length; i++) {
 			
 			if (c[i] < crossoverRate) {
+
 				trial[(r + i)%DIMENSIONS] = donor[i];
 			} else {
 				trial[(r + i)%DIMENSIONS] = populationX[i];
