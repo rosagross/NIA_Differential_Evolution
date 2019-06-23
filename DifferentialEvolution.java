@@ -83,10 +83,10 @@ public class DifferentialEvolution {
 						currentProfit = Selection.profit(population[i], costprice);
 					}
 				}
-				//System.out.print("curr profit " + String.valueOf(currentProfit));
-				writer.append(String.valueOf(currentProfit));	
-				writer.append(",");
-				writer.append(String.valueOf(count));
+				System.out.println("curr profit " + String.valueOf(currentProfit));
+				
+				writer.write(String.valueOf((int)currentProfit) + "," + String.valueOf(count+1));
+				writer.append("\n");
 				
 				
 				count++;
