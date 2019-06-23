@@ -34,7 +34,7 @@ public class Evaluation {
 		Market[] markets = new Market[]{market1, market2, market3};
 	
 		//parameters
-		int popSize = 100;
+		int popSize = 250;
 		double scaleFactor = 0.5;
 		double crossoverRate = 0.5;
 		double costprice = 0.6;
@@ -42,10 +42,19 @@ public class Evaluation {
 		double[][] solution = new double[popSize][DIMENSIONS];
 		double bestValue;
 		
-		DifferentialEvolution diffEvol = new DifferentialEvolution(plants, markets, popSize, scaleFactor, crossoverRate, costprice);
+		//DonorGeneration donorGeneration = new DonorGenerationBest();
+		
+		//DonorGeneration donorGeneration = new DonorGenerationRandom();
+		DonorGeneration donorGeneration = new DonorGenerationTargetToBest();
+		
+		//TrialGeneration trialGeneration = new TrialGenerationBin();
+		TrialGeneration trialGeneration = new TrialGenerationExp();
+
+		
+		DifferentialEvolution diffEvol = new DifferentialEvolution(donorGeneration, trialGeneration, plants, markets, popSize, scaleFactor, crossoverRate, costprice);
 	
 		// do DE Algorithm for n iterations
-		solution = diffEvol.differentialEvolution(30);
+		solution = diffEvol.differentialEvolution(popSize);
 		// select the best value out of the new population
 		bestValue = Selection.profit(solution[0], costprice);
 		for (int i = 1; i < solution.length; i++) {

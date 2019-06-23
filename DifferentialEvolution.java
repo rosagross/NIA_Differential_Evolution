@@ -1,4 +1,4 @@
-package differentialEvolution;
+ package differentialEvolution;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -20,11 +20,14 @@ public class DifferentialEvolution {
 	private double[] donor;
 	private double[] trial;
 	private double[][] ranges;
+	
+	private DonorGeneration donorGeneration;
+	private TrialGeneration trialGeneration;
 
 	
 	final public int DIMENSIONS = 9;
 	
-	public DifferentialEvolution(Plant[] plants, Market[] markets, int popSize, double scaleFactor, double crossoverRate, double costprice) {
+	public DifferentialEvolution(DonorGeneration donorGeneration, TrialGeneration trialGeneration, Plant[] plants, Market[] markets, int popSize, double scaleFactor, double crossoverRate, double costprice) {
 		
 		this.plants = plants;
 		this.markets = markets;
@@ -32,6 +35,8 @@ public class DifferentialEvolution {
 		this.scaleFactor = scaleFactor;
 		this.crossoverRate = crossoverRate;
 		this.costprice = costprice;
+		this.donorGeneration = donorGeneration;
+		this.trialGeneration = trialGeneration;
 	}
 	
 	
@@ -49,8 +54,6 @@ public class DifferentialEvolution {
 		population = init.initialize();
 		
 		// initialize our instances for of the modules
-		DonorGeneration donorGen = new DonorGeneration(scaleFactor, ranges);
-		TrialGeneration trialGen = new TrialGeneration(crossoverRate);
 		Selection select = new Selection(markets, plants, costprice);
 		
 		try (BufferedWriter writer =
@@ -65,9 +68,9 @@ public class DifferentialEvolution {
 		
 				for (int i = 0; i < popSize; i++) {
 					// generate the donor (Mutation)
-					donor = donorGen.generateDonor(population);
+					donor = donorGeneration.generateDonor(population, scaleFactor, ranges, costprice, i);
 					// generate the trial (Crossover)
-					trial = trialGen.generateTrial(donor, population[i], ranges);
+					trial = trialGeneration.generateTrial(donor, population[i], ranges, crossoverRate);
 					// add the selected trial to new population
 					newPopulation[i] = select.select(trial, population[i]);
 					// copy the array such that population = newPopulation
